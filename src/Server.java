@@ -15,11 +15,25 @@ public class Server {
 
             System.out.println("Client accepted " + (++count));
 
-            OutputStreamWriter writer = new OutputStreamWriter(clientSocket.getOutputStream());
-            writer.write("You are client #" + count + "\n");
+            OutputStreamWriter writer =
+                    new OutputStreamWriter(
+                            clientSocket.getOutputStream());
+
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(
+                            clientSocket.getInputStream()));
+
+            String request = reader.readLine();
+            String response = "#" +  count +
+                    ", your message length is " +
+                    request.length() + "\n";
+
+            writer.write(response);
             writer.flush();
 
+            reader.close();
             writer.close();
+
             clientSocket.close();
 
         }
