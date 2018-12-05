@@ -5,17 +5,22 @@ public class Server {
 
     public static void main(String[] args) throws IOException {
 
-        // Этот сокет используется для того, чтобы создать серверное подключение
-        // и на сервере создать ожидание клиента.
         ServerSocket serverSocket = new ServerSocket(8000);
 
-        // После выполнения команды выше, порт будет подготовлен, но еще порт прослушиваться не будет
-        //  = чтобы начать слушать этот порт необходимо выполнить команду accept()
-        serverSocket.accept(); // суть выполнения этой команды - получить подключение от клиента
+        // Создаем связь с клиентом через сокет:
+        Socket clientSocket = serverSocket.accept();
 
-        // После того, как подключение будет совершено и все действия будут реализованы
-        //  - мы наш сервер можем закончить - завершить работу с ним.
+        // Сделаем обертку над OutputStream, чтобы была возможность отправлять строки
+        OutputStreamWriter writer = new OutputStreamWriter(clientSocket.getOutputStream());
+        writer.write("<h1>Java</h1");
+        // Гарантирует, что сообщение будет прямо сейчас отправлено
+        writer.flush();
+
+        // Как что-нибудь отправить через этот сокет?
+//        clientSocket.getOutputStream().write(64);
+
+        writer.close();
+        clientSocket.close();
         serverSocket.close();
-
     }
 }
