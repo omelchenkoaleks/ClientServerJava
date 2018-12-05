@@ -15,9 +15,10 @@ public class Server {
 
             System.out.println("Client accepted " + (++count));
 
-            OutputStreamWriter writer =
-                    new OutputStreamWriter(
-                            clientSocket.getOutputStream());
+            BufferedWriter writer =
+                    new BufferedWriter(
+                            new OutputStreamWriter(
+                                    clientSocket.getOutputStream()));
 
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(
@@ -26,9 +27,10 @@ public class Server {
             String request = reader.readLine();
             String response = "#" +  count +
                     ", your message length is " +
-                    request.length() + "\n";
+                    request.length();
 
             writer.write(response);
+            writer.newLine();
             writer.flush();
 
             reader.close();
